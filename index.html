@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newsletter sign-up form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              basic: "#232740",
+              "gr-pink": "#FC5C80",
+              "gr-orange": "#FC6C41",
+              "error-bg": "#FFE8E6",
+            },
+            fontFamily: {
+              inter: "Inter",
+            },
+          },
+        },
+      };
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const errorAlert = document.getElementById("error-alert");
+        const mainContainer = document.getElementById("main-container");
+        const successBox = document.getElementById("success-box");
+        const theEmailField = document.querySelector(".the-email")
+        errorAlert.style.display = "none";
+
+        function isValidEmail(email) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+        }
+
+        function handleButtonClick(event) {
+          event.preventDefault();
+
+          const emailInput = document.getElementById("email");
+          const email = emailInput.value;
+
+          if (isValidEmail(email)) {
+            emailInput.classList.remove("bg-error-bg");
+            emailInput.classList.remove("border-2");
+            emailInput.classList.remove("border-red-400");
+            emailInput.classList.remove("text-red-600");
+            errorAlert.style.display = "none";
+
+            const subscribedEmail = email;
+
+            mainContainer.classList.add("scale-50");
+            mainContainer.classList.add("opacity-0");
+            mainContainer.classList.add("hidden");
+
+            successBox.classList.remove("hidden");
+            successBox.classList.add("scale-100");
+            successBox.classList.add("opacity-100");
+
+            theEmailField.innerHTML = subscribedEmail;
+            emailInput.value = "";
+          } else {
+            emailInput.classList.add("bg-error-bg");
+            emailInput.classList.add("border-2");
+            emailInput.classList.add("border-red-400");
+            emailInput.classList.add("text-red-600");
+            errorAlert.style.display = "block";
+
+            console.error("Invalid email address");
+          }
+        }
+
+        function handleInput() {
+          const emailInput = document.getElementById("email");
+
+          emailInput.classList.remove("bg-error-bg");
+          emailInput.classList.remove("border-2");
+          emailInput.classList.remove("border-red-400");
+          emailInput.classList.remove("text-red-600");
+          errorAlert.style.display = "none";
+        }
+
+        function back() {
+          mainContainer.classList.remove("scale-50");
+          mainContainer.classList.remove("opacity-0");
+          mainContainer.classList.remove("hidden");
+
+          successBox.classList.add("hidden");
+          successBox.classList.remove("scale-100");
+          successBox.classList.remove("opacity-100");
+        }
+
+        const subscribeForm = document.querySelector("form");
+        const submitButton = document.querySelector(".button-1");
+        const backButton = document.querySelector(".button-2");
+
+        submitButton.addEventListener("click", handleButtonClick);
+        backButton.addEventListener("click", back);
+
+        subscribeForm.addEventListener("input", handleInput);
+      });
+    </script>
+  </head>
+  <body class="md:bg-basic font-inter">
+    <main>
+    <div
+      class="w-screen h-screen min-h-screen md:h-screen flex items-start lg:items-center justify-center md:p-5 relative"
+    >
+      <div
+        id="main-container"
+        class="w-full h-full md:h-fit lg:w-[928px] lg:h-[641px] bg-white text-basic font-medium md:rounded-[35px] md:p-[24px] flex flex-col-reverse md:flex-row duration-100"
+      >
+        <div
+          class="flex-1 py-8 px-5 md:p-8 lg:p-14 flex flex-col gap-7 md:justify-center"
+        >
+          <h1 class="text-4xl md:text-5xl font-bold">Stay updated!</h1>
+          <p class="text-[15px]">
+            Join 60,000+ product managers receiving monthly updates on:
+          </p>
+          <ul
+            style="list-style-image: url('./assets/icon-list.svg')"
+            class="pl-7 flex flex-col gap-1.5 text-[15px]"
+          >
+            <li class="pl-2">
+              <p class="-translate-y-1">
+                Product discovery and building what matters
+              </p>
+            </li>
+            <li class="pl-2">
+              <p class="-translate-y-1">
+                Measuring ti ensure updates are a success
+              </p>
+            </li>
+            <li class="pl-2">
+              <p class="-translate-y-1">And much more!</p>
+            </li>
+          </ul>
+          <form novalidate>
+            <div class="flex items-center justify-between font-bold text-sm">
+              <label for="email">Email address</label>
+              <p id="error-alert" class="text-red-500">Valid email required</p>
+            </div>
+            <input
+              type="email"
+              id="email"
+              placeholder="email@company.com"
+              class="w-full py-4 px-5 mt-2 mb-5 rounded-lg border border-slate-400 bg-inherit placeholder:font-normal"
+            />
+            <button
+              class="button-1 bg-basic text-white w-full h-fit py-4 px-5 rounded-lg hover:bg-gradient-to-r hover:from-gr-pink hover:to-gr-orange duration-100 hover:shadow-[0_16px_30px_0px_#FFABA6] active:scale-95 active:shadow-[0_5px_16px_0px_#FFABA6]"
+            >
+              Subscribe to monthly newslater
+            </button>
+          </form>
+        </div>
+        <div
+          class="w-full h-fit max-h-96 md:max-h-fit overflow-hidden md:w-[400px] md:aspect-auto"
+        >
+          <img
+            src="./assets/illustration-sign-up-desktop.svg"
+            alt="sign-up-desktop"
+            class="hidden md:block"
+          />
+          <img
+            src="./assets/illustration-sign-up-mobile.svg"
+            alt="sign-up-desktop"
+            class="block md:hidden w-full h-full object-cover"
+          />
+        </div>
+      </div>
+      <div
+        id="success-box"
+        class="w-full h-full md:h-fit md:w-[504px] lg:h-[520px] bg-white text-basic font-medium md:rounded-[35px] p-5 md:py-12 md:px-16 md:flex-row duration-100 opacity-0 scale-150 delay-100 pt-[40%] pb-5 hidden"
+      >
+        <div
+          class="w-full h-full flex flex-col justify-between md:block md:mt-0"
+        >
+          <div class="mb-9 md:mb-11">
+            <img
+              src="./assets/icon-success.svg"
+              alt="success"
+              class="w-16 h-16 object-contain mb-9 md:mb-11"
+            />
+            <h1
+              class="text-4xl md:text-5xl font-bold mb-6 md:mb-8 tracking-tight"
+            >
+              Thanks for subscribing!
+            </h1>
+            <p class="font-medium">
+              A confirmation email has been sent to
+              <span class="the-email font-bold"></span>. Please open it and
+              click the button inside to confirm your subscription
+            </p>
+          </div>
+          <button
+            class="button-2 bg-basic text-white w-full h-fit py-4 px-5 md:mb-0 rounded-lg hover:bg-gradient-to-r hover:from-gr-pink hover:to-gr-orange duration-100 hover:shadow-[0_16px_30px_0px_#FFABA6] active:scale-95 active:shadow-[0_5px_16px_0px_#FFABA6]"
+          >
+            Subscribe to monthly newslater
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+  </body>
+</html>
